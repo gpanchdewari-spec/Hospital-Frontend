@@ -1,0 +1,22 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+.doc-sans {
+  font-family: "DM Sans", sans-serif;
+}
+
+.doc-serif {
+  font-family: "Playfair Display", serif;
+}
+
+@import "tailwindcss";
+
+
+.grid-bg {
+  background-color: #f2f7f5;
+
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+
+  background-size: 40px 40px;
+}
