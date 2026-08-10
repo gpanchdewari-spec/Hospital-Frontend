@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://hospital-backend-2-mido.onrender.com",
+  baseURL: "https://hospital-backend-2-mido.onrender.com/api",
 });
 
 // Attach JWT token automatically to every request
