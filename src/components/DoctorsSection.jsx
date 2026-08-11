@@ -108,7 +108,7 @@ const DoctorsSection = () => {
               </div>
 
               <Link to={`/patient/book-appointment?doctorId=${doctor._id}`}>
-                <button className="doc-sans w-full bg-[#b6315e] cursor-pointer text-white text-sm font-medium py-3 rounded-[5px] hover:bg-[#0B241F] transition-colors duration-300">
+                <button className="doc-sans w-full bg-[#b6315e] cursor-pointer text-white text-sm font-medium py-3 rounded-[5px] hover:bg-blue-600 transition-colors duration-300">
                   Book Appointment
                 </button>
               </Link>

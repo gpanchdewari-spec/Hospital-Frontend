@@ -95,7 +95,7 @@ const DoctorDashboard = () => {
         </div>
 
         {/* Statistics */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-3 sm:gap-6">
           <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
             <p className="text-gray-500 text-sm">Total Appointments</p>
 
@@ -128,7 +128,7 @@ const DoctorDashboard = () => {
             </h2>
           </div>
 
-          <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 col-span-2 lg:col-span-1">
+          <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 col-span-1">
             <p className="text-gray-500 text-sm">Total Earnings</p>
 
             <h2 className="text-3xl sm:text-4xl font-bold text-green-600 mt-2">
@@ -168,7 +168,7 @@ const DoctorDashboard = () => {
                       <div className="min-w-0">
                         <p className="text-xs text-gray-500">Patient</p>
 
-                        <h3 className="font-semibold text-gray-800 text-lg break-words">
+                        <h3 className="font-semibold text-gray-800 text-[10px] whitespace-normal break-normal">
                           {appointment.patientId?.userId?.name || "Patient"}
                         </h3>
                       </div>
@@ -320,7 +320,7 @@ const DoctorDashboard = () => {
               {/* ================================================= */}
 
               <div className="hidden md:block w-full max-w-full overflow-x-auto">
-                <table className="w-full min-w-[1100px]">
+                <table className="w-full min-w-[1000px]">
                   <thead>
                     <tr className="border-b text-left">
                       <th className="p-4">Patient</th>

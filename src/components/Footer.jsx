@@ -12,7 +12,7 @@ const Footer = () => {
             </h2>
 
             <p className="leading-7 text-gray-400">
-              SmartCare Hospital is committed to providing quality healthcare
+              CareNova Hospital is committed to providing quality healthcare
               with experienced doctors, advanced medical technology, and
               compassionate patient care.
             </p>
@@ -101,7 +101,7 @@ const Footer = () => {
 
         <div className="border-t border-slate-700 mt-12 pt-6 text-center text-gray-400">
           <p>
-            © {new Date().getFullYear()} SmartCare Hospital. All Rights
+            © {new Date().getFullYear()} CareNova Hospital. All Rights
             Reserved.
           </p>
 

@@ -143,7 +143,7 @@ const Appointments = () => {
                       <div className="min-w-0 flex-1">
                         <p className="text-xs text-gray-500">Patient</p>
 
-                        <h3 className="font-semibold text-gray-800 text-base break-words">
+                        <h3 className="font-semibold text-gray-800 text-[10px] whitespace-normal break-normal">
                           {appointment.patientId?.userId?.name || "Patient"}
                         </h3>
                       </div>
