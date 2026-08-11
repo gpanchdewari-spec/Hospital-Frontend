@@ -55,7 +55,7 @@ const Dashboard = () => {
 
           <div className="bg-blue-600 text-white rounded-xl shadow-md p-5 sm:p-8">
             <h1 className="text-2xl sm:text-3xl font-bold">
-              Welcome to SmartCare Hospital 👋
+              Welcome to CareNova Hospital 👋
             </h1>
 
             <p className="mt-3 text-sm sm:text-lg text-blue-100 leading-6">

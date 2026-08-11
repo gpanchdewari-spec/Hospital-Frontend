@@ -22,7 +22,7 @@ const Sidebar = () => {
     <aside className="w-[145px] sm:w-[170px] md:w-64 shrink-0 min-h-screen bg-blue-700 text-white p-2 sm:p-3 md:p-6">
       {/* Logo */}
       <h2 className="text-sm sm:text-lg md:text-2xl font-bold mb-6 md:mb-8 whitespace-nowrap">
-         <span className="hidden sm:inline">SmartCare</span>
+         <span className="hidden sm:inline">CareNova</span>
       </h2>
 
       <nav className="space-y-2">
