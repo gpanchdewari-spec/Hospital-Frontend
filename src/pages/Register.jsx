@@ -122,7 +122,7 @@ const Register = () => {
           <div className="lg:hidden flex items-center gap-2 mb-8 justify-center">
             <span className="w-2 h-2 rounded-full bg-[#B6315E]" />
             <span className="text-xs tracking-[0.2em] uppercase text-[#B6315E] font-medium">
-              SmartCare Hospital
+              CareNova Hospital
             </span>
           </div>
 
