@@ -5,6 +5,9 @@ const api = axios.create({
 });
 
 // Attach JWT token automatically to every request
+//"https://hospital-backend-2-mido.onrender.com/api"
+
+
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");

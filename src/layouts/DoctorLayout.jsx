@@ -43,6 +43,14 @@ const DoctorLayout = () => {
               Appointments
             </Link>
 
+            {/* Availability */}
+            <Link
+              to="/doctor/availability"
+              className="block hover:bg-blue-600 p-2 sm:p-2.5 md:p-3 rounded-lg text-xs sm:text-sm md:text-base"
+            >
+              Availability
+            </Link>
+
             <button
               onClick={handleLogout}
               className="block hover:bg-red-600 p-2 sm:p-2.5 md:py-4  rounded-lg text-xs sm:text-sm md:text-base"
