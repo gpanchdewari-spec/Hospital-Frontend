@@ -41,6 +41,13 @@ const PatientLayout = () => {
             </Link>
 
             <Link
+              to="/patient/emergency"
+              className="block hover:bg-red-600 p-3 rounded-lg"
+            >
+              Emergency Appointment
+            </Link>
+
+            <Link
               to="/patient/my-appointments"
               className="block hover:bg-blue-600 p-2 sm:p-2.5 md:p-3 rounded-lg text-xs sm:text-sm md:text-base"
             >

@@ -7,21 +7,19 @@ const Dashboard = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchAppointments = async () => {
-    try {
-      const { data } = await api.get("/appointments/my");
+const fetchAppointments = async () => {
+  try {
+    const { data } = await api.get("/appointments/my");
 
-      setAppointments(data.appointments || []);
-    } catch (error) {
-      console.log(error);
+    setAppointments(data.appointments || []);
+  } catch (error) {
+    console.log(error);
 
-      toast.error(
-        error.response?.data?.message || "Unable to load appointments",
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+    toast.error(error.response?.data?.message || "Unable to load appointments");
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchAppointments();

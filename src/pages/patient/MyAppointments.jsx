@@ -45,6 +45,10 @@ const MyAppointments = () => {
     return "bg-yellow-100 text-yellow-700";
   };
 
+  const emergencyAppointments = appointments.filter(
+    (appointment) => appointment.appointmentType === "Emergency",
+  );
+
   return (
     <div className="w-full min-w-0">
       {/* ================= HEADER ================= */}
@@ -69,6 +73,61 @@ const MyAppointments = () => {
           </Link>
         </div>
       </div>
+      {/* ================= EMERGENCY APPOINTMENTS ================= */}
+
+      {emergencyAppointments.length > 0 && (
+        <div className="mb-6 space-y-3">
+          <h2 className="text-xl font-bold text-red-600">
+            🚨 Emergency Appointments
+          </h2>
+
+          {emergencyAppointments.map((appointment) => (
+            <div
+              key={appointment._id}
+              className="bg-red-50 border border-red-300 rounded-xl p-4 sm:p-5"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <p className="font-semibold text-gray-800">
+                    {appointment.reason}
+                  </p>
+
+                  <p className="text-sm mt-2">
+                    Fee:{" "}
+                    <span className="font-bold text-red-600">
+                      ₹{appointment.consultationFee}
+                    </span>
+                  </p>
+
+                  <p className="text-sm mt-1">
+                    Status:{" "}
+                    <span
+                      className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${getStatusClass(
+                        appointment.status,
+                      )}`}
+                    >
+                      {appointment.status}
+                    </span>
+                  </p>
+
+                  <p className="text-sm mt-2 text-gray-700">
+                    Doctor:{" "}
+                    {appointment.doctorId ? (
+                      <span className="font-semibold text-green-700">
+                        Dr. {appointment.doctorId?.userId?.name || "Doctor"}
+                      </span>
+                    ) : (
+                      <span className="font-semibold text-yellow-600">
+                        Waiting for doctor to accept
+                      </span>
+                    )}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* ================= CONTENT ================= */}
 

@@ -84,6 +84,16 @@ const Appointments = () => {
     }
   };
 
+  const acceptedEmergencies = appointments.filter(
+    (appointment) =>
+      appointment.appointmentType === "Emergency" &&
+      appointment.status !== "Rejected",
+  );
+
+  const normalAppointments = appointments.filter(
+    (appointment) => appointment.appointmentType !== "Emergency",
+  );
+
   return (
     <div className="min-h-screen w-full min-w-0 bg-slate-100 px-2 py-4 sm:px-4 md:px-6 sm:py-6">
       <div className="w-full max-w-7xl mx-auto min-w-0">
@@ -98,6 +108,78 @@ const Appointments = () => {
             Manage appointments assigned to you.
           </p>
         </div>
+
+        {/* ================= ACCEPTED EMERGENCY APPOINTMENTS ================= */}
+
+        {acceptedEmergencies.length > 0 && (
+          <div className="mb-6 space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-red-600">
+              🚨 My Emergency Appointments
+            </h2>
+
+            {acceptedEmergencies.map((appointment) => (
+              <div
+                key={appointment._id}
+                className="bg-red-50 border-2 border-red-300 rounded-xl p-4 sm:p-5 shadow-sm"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-bold text-red-600 uppercase">
+                      Emergency Appointment
+                    </p>
+
+                    <h3 className="text-lg font-bold text-gray-800 mt-1">
+                      {appointment.patientId?.userId?.name || "Patient"}
+                    </h3>
+
+                    <p className="text-sm text-gray-600 mt-1">
+                      Phone:{" "}
+                      <span className="font-semibold">
+                        {appointment.patientId?.phone || "N/A"}
+                      </span>
+                    </p>
+
+                    <p className="text-sm text-gray-600 mt-2">
+                      Reason:{" "}
+                      <span className="font-medium">
+                        {appointment.reason || "N/A"}
+                      </span>
+                    </p>
+
+                    <p className="text-sm mt-2">
+                      Fee:{" "}
+                      <span className="font-bold text-red-600">
+                        ₹{appointment.consultationFee || 10000}
+                      </span>
+                    </p>
+                  </div>
+
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-semibold w-fit ${
+                      appointment.status === "Approved"
+                        ? "bg-green-100 text-green-700"
+                        : appointment.status === "Completed"
+                          ? "bg-blue-100 text-blue-700"
+                          : "bg-yellow-100 text-yellow-700"
+                    }`}
+                  >
+                    {appointment.status}
+                  </span>
+                </div>
+
+                {/* Complete button */}
+                {appointment.status === "Approved" && (
+                  <button
+                    onClick={() => updateStatus(appointment._id, "Completed")}
+                    className="mt-4 bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700"
+                  >
+                    Complete Emergency
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* ================= APPOINTMENTS CONTAINER ================= */}
 

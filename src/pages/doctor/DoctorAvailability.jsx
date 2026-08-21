@@ -24,6 +24,10 @@ const DoctorAvailability = () => {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [leaveDate, setLeaveDate] = useState("");
+  const [leaveReason, setLeaveReason] = useState("");
+  const [unavailableDates, setUnavailableDates] = useState([]);
+  const [addingLeave, setAddingLeave] = useState(false);
 
   useEffect(() => {
     fetchAvailability();
@@ -34,6 +38,7 @@ const DoctorAvailability = () => {
       const { data } = await api.get("/doctors/availability");
 
       const existingAvailability = data.availability || [];
+      setUnavailableDates(data.unavailableDates || []);
 
       const updatedAvailability = days.map((day) => {
         const existing = existingAvailability.find((item) => item.day === day);
@@ -57,6 +62,36 @@ const DoctorAvailability = () => {
       );
     } finally {
       setLoading(false);
+    }
+  };
+
+
+  const handleAddLeave = async () => {
+    if (!leaveDate) {
+      toast.error("Please select a date");
+      return;
+    }
+
+    try {
+      setAddingLeave(true);
+
+      const { data } = await api.post("/doctors/unavailable-date", {
+        date: leaveDate,
+        reason: leaveReason,
+      });
+
+      setUnavailableDates(data.unavailableDates || []);
+
+      setLeaveDate("");
+      setLeaveReason("");
+
+      toast.success("Leave added successfully");
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error.response?.data?.message || "Unable to add leave");
+    } finally {
+      setAddingLeave(false);
     }
   };
 
@@ -215,6 +250,94 @@ const DoctorAvailability = () => {
           >
             {saving ? "Saving..." : "Save Availability"}
           </button>
+        </div>
+        <div className="bg-white rounded-xl shadow-md p-6 mt-8">
+          <h2 className="text-xl font-bold text-gray-800">
+            Specific Date Leave
+          </h2>
+
+          <p className="text-gray-500 text-sm mt-1 mb-5">
+            Mark a specific date as unavailable without changing your weekly
+            schedule.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Date */}
+            <div>
+              <label className="block mb-2 font-semibold text-gray-700">
+                Leave Date
+              </label>
+
+              <input
+                type="date"
+                value={leaveDate}
+                onChange={(e) => setLeaveDate(e.target.value)}
+                min={new Date().toISOString().split("T")[0]}
+                className="w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Reason */}
+            <div>
+              <label className="block mb-2 font-semibold text-gray-700">
+                Reason
+              </label>
+
+              <input
+                type="text"
+                value={leaveReason}
+                onChange={(e) => setLeaveReason(e.target.value)}
+                placeholder="Personal leave"
+                className="w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Button */}
+            <div className="flex items-end">
+              <button
+                type="button"
+                onClick={handleAddLeave}
+                disabled={addingLeave}
+                className="w-full bg-red-600 text-white p-3 rounded-lg font-semibold hover:bg-red-700 disabled:opacity-50"
+              >
+                {addingLeave ? "Adding..." : "Add Leave"}
+              </button>
+            </div>
+          </div>
+
+          {/* Existing Leaves */}
+          <div className="mt-6">
+            <h3 className="font-semibold text-gray-700 mb-3">
+              Upcoming Leaves
+            </h3>
+
+            {unavailableDates.length === 0 ? (
+              <p className="text-gray-500 text-sm">No specific leaves added.</p>
+            ) : (
+              <div className="space-y-3">
+                {unavailableDates.map((leave, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 bg-red-50 border border-red-100 rounded-lg p-4"
+                  >
+                    <div>
+                      <p className="font-semibold text-red-700">
+                        {new Date(leave.date).toLocaleDateString()}
+                      </p>
+
+                      <p className="text-sm text-gray-600">
+                        {leave.reason || "No reason provided"}
+                      </p>
+                    </div>
+
+                    <span className="text-sm font-semibold text-red-600">
+                      Unavailable
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

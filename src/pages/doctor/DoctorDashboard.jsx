@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 const DoctorDashboard = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [emergencies, setEmergencies] = useState([]);
 
   const fetchAppointments = async () => {
     try {
@@ -22,9 +23,7 @@ const DoctorDashboard = () => {
     }
   };
 
-  useEffect(() => {
-    fetchAppointments();
-  }, []);
+ 
 
   const updateStatus = async (id, status) => {
     try {
@@ -80,6 +79,42 @@ const DoctorDashboard = () => {
     0,
   );
 
+  const fetchEmergencies = async () => {
+    try {
+      const { data } = await api.get("/appointments/emergency");
+
+      setEmergencies(data.emergencies || []);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const acceptEmergency = async (id) => {
+    try {
+      await api.put(`/appointments/emergency/${id}/accept`);
+
+      toast.success("Emergency appointment accepted");
+
+      // Refresh both
+      fetchEmergencies();
+      fetchAppointments();
+    } catch (error) {
+      console.log(error);
+
+      toast.error(
+        error.response?.data?.message ||
+          "Emergency already accepted by another doctor",
+      );
+
+      fetchEmergencies();
+    }
+  };
+
+  useEffect(() => {
+    fetchAppointments();
+    fetchEmergencies();
+  }, []);
+
   return (
     <div className="min-h-screen bg-slate-100 p-3 sm:p-6 overflow-x-hidden">
       <div className="max-w-7xl mx-auto min-w-0">
@@ -93,6 +128,65 @@ const DoctorDashboard = () => {
             Manage your appointments and patients.
           </p>
         </div>
+        {/* Emergency Appointments */}
+
+        {emergencies.length > 0 && (
+          <div className="mb-6 space-y-4">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">🚨</span>
+
+              <h2 className="text-xl sm:text-2xl font-bold text-red-600">
+                Emergency Requests
+              </h2>
+
+              <span className="bg-red-600 text-white text-xs font-bold px-2.5 py-1 rounded-full">
+                {emergencies.length}
+              </span>
+            </div>
+
+            {emergencies.map((emergency) => (
+              <div
+                key={emergency._id}
+                className="bg-red-50 border-2 border-red-300 rounded-xl p-4 sm:p-5 shadow-sm"
+              >
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="text-xs font-bold text-red-600 uppercase tracking-wide">
+                      Emergency Appointment
+                    </p>
+
+                    <h3 className="text-lg font-bold text-gray-800 mt-1">
+                      {emergency.patientId?.userId?.name || "Patient"}
+                    </h3>
+
+                    <p className="text-sm text-gray-500 mt-1">
+                      Phone: {emergency.patientId?.phone || "N/A"}
+                    </p>
+
+                    <div className="mt-3">
+                      <p className="text-xs text-gray-500">Emergency</p>
+
+                      <p className="text-sm text-gray-700 break-words">
+                        {emergency.reason || "N/A"}
+                      </p>
+                    </div>
+
+                    <p className="text-lg font-bold text-red-600 mt-3">
+                      Fee: ₹{emergency.consultationFee || 10000}
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => acceptEmergency(emergency._id)}
+                    className="w-full md:w-auto bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition whitespace-nowrap"
+                  >
+                    Accept Emergency
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Statistics */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-3 sm:gap-6">
