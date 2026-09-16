@@ -83,7 +83,7 @@ const Footer = () => {
               </p>
 
               <p>
-                <strong>Email:</strong> smartcare@gmail.com
+                <strong>Email:</strong> carenova@gmail.com
               </p>
 
               <p>
