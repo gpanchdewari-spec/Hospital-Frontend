@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import api from "../services/api";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   ChevronLeft,
   ChevronRight,
@@ -9,6 +9,7 @@ import {
   ShieldCheck,
   Stethoscope,
 } from "lucide-react";
+import { AuthContext } from "../context/AuthContext";
 
 const whyChooseSlides = [
   {
@@ -37,6 +38,10 @@ const DoctorsSection = () => {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Auth
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   // Why Choose slider
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState("next");
@@ -59,7 +64,9 @@ const DoctorsSection = () => {
   const fetchDoctors = async () => {
     try {
       const { data } = await api.get("/doctors/public");
+
       console.log("Doctors API Response:", data);
+
       setDoctors(data.doctors || []);
     } catch (error) {
       console.log(error);
@@ -85,6 +92,19 @@ const DoctorsSection = () => {
   const goToSlide = (index) => {
     setDirection(index > currentSlide ? "next" : "prev");
     setCurrentSlide(index);
+  };
+
+  // ==========================================
+  // BOOK APPOINTMENT
+  // ==========================================
+  const handleBookAppointment = (doctorId) => {
+    if (user) {
+      // User is logged in
+      navigate(`/patient/book-appointment?doctorId=${doctorId}`);
+    } else {
+      // User is not logged in
+      navigate("/login");
+    }
   };
 
   const currentWhySlide = whyChooseSlides[currentSlide];
@@ -332,26 +352,26 @@ const DoctorsSection = () => {
               </div>
 
               {/* Book Appointment */}
-              <Link to={`/patient/book-appointment?doctorId=${doctor._id}`}>
-                <button
-                  className="
-                    doc-sans
-                    w-full
-                    bg-[#b6315e]
-                    cursor-pointer
-                    text-white
-                    text-sm
-                    font-medium
-                    py-3
-                    rounded-[5px]
-                    hover:bg-[#10312C]
-                    transition-colors
-                    duration-300
-                  "
-                >
-                  Book Appointment
-                </button>
-              </Link>
+              <button
+                type="button"
+                onClick={() => handleBookAppointment(doctor._id)}
+                className="
+                  doc-sans
+                  w-full
+                  bg-[#b6315e]
+                  cursor-pointer
+                  text-white
+                  text-sm
+                  font-medium
+                  py-3
+                  rounded-[5px]
+                  hover:bg-[#10312C]
+                  transition-colors
+                  duration-300
+                "
+              >
+                Book Appointment
+              </button>
             </div>
           ))}
         </div>

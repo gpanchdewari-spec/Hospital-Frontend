@@ -14,10 +14,13 @@ const BookAppointment = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
+  // Book Appointment button
   const handleBookAppointment = () => {
     if (user) {
+      // User is logged in
       navigate("/patient/book-appointment");
     } else {
+      // User is not logged in
       navigate("/login");
     }
   };
@@ -61,6 +64,7 @@ const BookAppointment = () => {
 
             {/* Button */}
             <button
+              type="button"
               onClick={handleBookAppointment}
               className="
                 group

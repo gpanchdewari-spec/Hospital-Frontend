@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   HeartPulse,
   Brain,
@@ -19,6 +19,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const services = [
   {
@@ -211,11 +212,26 @@ const stats = [
 
 const Services = () => {
   const [selectedService, setSelectedService] = useState(null);
+
   const navigate = useNavigate();
 
+  // Get logged-in user from AuthContext
+  const { user } = useContext(AuthContext);
+
+  // ==========================================
+  // BOOK APPOINTMENT
+  // ==========================================
   const handleBookAppointment = () => {
+    // Close modal first
     setSelectedService(null);
-    navigate("/patient/book-appointment");
+
+    if (user) {
+      // User is logged in
+      navigate("/patient/book-appointment");
+    } else {
+      // User is not logged in
+      navigate("/login");
+    }
   };
 
   const handleLearnMore = (service) => {
@@ -502,12 +518,9 @@ const Services = () => {
                 </p>
               </div>
 
+              {/* BOOK APPOINTMENT BUTTON */}
               <button
-                onClick={() => {
-                  document.getElementById("book")?.scrollIntoView({
-                    behavior: "smooth",
-                  });
-                }}
+                onClick={handleBookAppointment}
                 className="
                   shrink-0
                   inline-flex
@@ -707,6 +720,7 @@ const Services = () => {
                   </p>
                 </div>
 
+                {/* BOOK APPOINTMENT BUTTON */}
                 <button
                   onClick={handleBookAppointment}
                   className="
